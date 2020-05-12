@@ -1,0 +1,13 @@
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\GoogleDriveJob.deps.json
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\GoogleDriveJob.runtimeconfig.json
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\GoogleDriveJob.runtimeconfig.dev.json
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\GoogleDriveJob.dll
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\GoogleDriveJob.pdb
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.AssemblyInfoInputs.cache
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.AssemblyInfo.cs
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.dll
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.pdb
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\Log4NetLibrary.dll
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\Log4NetLibrary.pdb
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.csprojAssemblyReference.cache
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.csproj.CopyComplete
