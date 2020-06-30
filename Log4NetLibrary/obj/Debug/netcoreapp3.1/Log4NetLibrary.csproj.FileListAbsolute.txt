@@ -1,8 +1,0 @@
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\bin\Debug\netcoreapp3.1\Log4NetLibrary.deps.json
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\bin\Debug\netcoreapp3.1\Log4NetLibrary.dll
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\bin\Debug\netcoreapp3.1\Log4NetLibrary.pdb
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\obj\Debug\netcoreapp3.1\Log4NetLibrary.csprojAssemblyReference.cache
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\obj\Debug\netcoreapp3.1\Log4NetLibrary.AssemblyInfoInputs.cache
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\obj\Debug\netcoreapp3.1\Log4NetLibrary.AssemblyInfo.cs
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\obj\Debug\netcoreapp3.1\Log4NetLibrary.dll
-C:\Jifiti\GoogleDriveJob\Log4NetLibrary\obj\Debug\netcoreapp3.1\Log4NetLibrary.pdb
