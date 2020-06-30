@@ -31,9 +31,10 @@ namespace GoogleDriveJob
         {
             try
             {
+                GetAppSettingsFile();
+
                 InintializeGoogleDriveService();
 
-                GetAppSettingsFile();
                 var clientIdsString = _iconfiguration.GetSection("ClientIds").Value;
                 List<string> clientIdList = clientIdsString.Split(',').ToList();
                 foreach (var clientId in clientIdList)
@@ -379,7 +380,7 @@ namespace GoogleDriveJob
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
-                    Environment.UserName,
+                    $"{Environment.UserName}.drive",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
                 Console.WriteLine("Credential file saved to: " + credPath);

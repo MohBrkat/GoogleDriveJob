@@ -11,3 +11,7 @@ C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\Log4NetLibrary.d
 C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\Log4NetLibrary.pdb
 C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.csprojAssemblyReference.cache
 C:\Jifiti\GoogleDriveJob\GoogleDriveJob\obj\Debug\netcoreapp2.2\GoogleDriveJob.csproj.CopyComplete
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\credentials.json
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\Config\log4net.config
+C:\Jifiti\GoogleDriveJob\GoogleDriveJob\bin\Debug\netcoreapp2.2\sheet-credentials.json

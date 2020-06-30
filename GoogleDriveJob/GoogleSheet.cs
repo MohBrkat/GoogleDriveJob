@@ -35,7 +35,7 @@ namespace GoogleDriveJob
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
-                    Environment.UserName,
+                    $"{Environment.UserName}.sheet",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
                 //Console.WriteLine("Credential file saved to: " + credPath);
