@@ -7,6 +7,7 @@ using GoogleDriveJob.Helpers;
 using GoogleDriveJob.Models;
 using Log4NetLibrary;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,9 +46,14 @@ namespace GoogleDriveJob
                     await GenerateListsProductsReportAsync(clientId);
                     await GeneratePopularProductsReportAsync(clientId);
                 }
+
+                SaveCurrentDateToFile();
             }
             catch (Exception e)
             {
+                //string emails = _iconfiguration?.GetSection("JifitiEmails")?.Value;
+                //new RegistryDAL(_iconfiguration).CreateEmailLog(emails, "Failed GDS Job error: " + e.Message, "Failed during running GDS");
+                new SendEmailHelper(_iconfiguration).SendEmail(e, "Failed during running GDS");
                 Logger.Error(e.Message);
             }
         }
@@ -63,7 +69,7 @@ namespace GoogleDriveJob
             string contentType = "text/csv";
             string fileName = $"{clientId}{reportName}.{extension}";
             string filePath = GetFilePath(fileName);
-            DateTime from;
+            DateTime from = GetLastUsedDateFile();
             DateTime to;
 
             bool includeHeaders = true;
@@ -80,7 +86,7 @@ namespace GoogleDriveJob
             else
             {
                 includeHeaders = false;
-                from = DateTime.Now.AbsoluteStart();
+                //from = DateTime.Now.AbsoluteStart();
                 to = DateTime.Now.AbsoluteEnd();
 
                 popularProductsData = GetPopularProductsDataByClientId(clientId, from, to);
@@ -125,7 +131,7 @@ namespace GoogleDriveJob
             string contentType = "text/csv";
             string fileName = $"{clientId}{reportName}.{extension}";
             string filePath = GetFilePath(fileName);
-            DateTime from;
+            DateTime from = GetLastUsedDateFile();
             DateTime to;
 
             bool includeHeaders = true;
@@ -142,7 +148,7 @@ namespace GoogleDriveJob
             else
             {
                 includeHeaders = false;
-                from = DateTime.Now.AbsoluteStart();
+                //from = DateTime.Now.AbsoluteStart();
                 to = DateTime.Now.AbsoluteEnd();
 
                 listProductsData = GetListProductsDataByClientId(clientId, from, to);
@@ -188,7 +194,7 @@ namespace GoogleDriveJob
             string contentType = "text/csv";
             string fileName = $"{clientId}{reportName}.{extension}";
             string filePath = GetFilePath(fileName);
-            DateTime from;
+            DateTime from = GetLastUsedDateFile();
             DateTime to;
 
             bool includeHeaders = true;
@@ -205,7 +211,7 @@ namespace GoogleDriveJob
             else
             {
                 includeHeaders = false;
-                from = DateTime.Now.AbsoluteStart();
+                //from = DateTime.Now.AbsoluteStart();
                 to = DateTime.Now.AbsoluteEnd();
 
                 totalRevenueData = GetTotalRevenueDataByClientId(clientId, from, to);
@@ -252,7 +258,7 @@ namespace GoogleDriveJob
             var contentType = "text/csv";
             var fileName = $"{clientId}{reportName}.{extension}";
             string filePath = GetFilePath(fileName);
-            DateTime from;
+            DateTime from = GetLastUsedDateFile();
             DateTime to;
 
             bool includeHeaders = true;
@@ -269,7 +275,7 @@ namespace GoogleDriveJob
             else
             {
                 includeHeaders = false;
-                from = DateTime.Now.AbsoluteStart();
+                //from = DateTime.Now.AbsoluteStart();
                 to = DateTime.Now.AbsoluteEnd();
 
                 newUsersData = GetNewUsersDataByClientId(clientId, from, to);
@@ -312,7 +318,7 @@ namespace GoogleDriveJob
             var contentType = "text/csv";
             var fileName = $"{clientId}{reportName}.{extension}";
             string filePath = GetFilePath(fileName);
-            DateTime from;
+            DateTime from = GetLastUsedDateFile();
             DateTime to;
 
             bool includeHeaders = true;
@@ -329,7 +335,7 @@ namespace GoogleDriveJob
             else
             {
                 includeHeaders = false;
-                from = DateTime.Now.AbsoluteStart();
+                //from = DateTime.Now.AbsoluteStart();
                 to = DateTime.Now.AbsoluteEnd();
 
                 listsCreatedData = GetListsCreatedDataByClientId(clientId, from, to);
@@ -566,8 +572,8 @@ namespace GoogleDriveJob
         {
             Logger.Info("Get App Settings File");
             var builder = new ConfigurationBuilder()
-                                 .SetBasePath(Directory.GetCurrentDirectory())
-                                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             _iconfiguration = builder.Build();
         }
 
@@ -593,6 +599,37 @@ namespace GoogleDriveJob
 
             string filePath = System.IO.Path.Combine(directory, fileName);
             return filePath;
+        }
+
+        private static void SaveCurrentDateToFile()
+        {
+            Logger.Info($"Save Last Run Date to file ReportsLastRunDate.txt");
+
+            var lastUsedDate = DateTime.Now.AbsoluteEnd().ToString();
+            string fileName = $"ReportsLastRunDate.txt";
+            string filePath = GetFilePath(fileName);
+            System.IO.File.WriteAllText(filePath, lastUsedDate);
+        }
+
+        public static DateTime GetLastUsedDateFile()
+        {
+            Logger.Info($"Get Last Run Date from ReportsLastRunDate.txt file");
+
+            var reportInitialDate = _iconfiguration.GetSection("ReportsInitialDate").Value;
+            DateTime from = Convert.ToDateTime(reportInitialDate);
+
+            string fileName = $"ReportsLastRunDate.txt";
+            string filePath = GetFilePath(fileName);
+            if (System.IO.File.Exists(filePath))
+            {
+                string[] lines = System.IO.File.ReadAllLines(filePath);
+                foreach(var line in lines)
+                {
+                    if (!string.IsNullOrWhiteSpace(line) && DateTime.TryParse(line, out DateTime value))
+                        from = value;
+                }
+            }
+            return from.AbsoluteStart();
         }
         #endregion
     }

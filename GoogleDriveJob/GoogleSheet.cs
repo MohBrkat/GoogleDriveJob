@@ -51,7 +51,7 @@ namespace GoogleDriveJob
             return service;
         }
 
-        public static async Task WriteAsync(List<IList<Object>> values,string spreadSheetId)
+        public static async Task WriteAsync(List<IList<Object>> values, string spreadSheetId)
         {
             var sheetService = GetSheetsService();
             var serviceValues = sheetService.Spreadsheets.Values;
@@ -61,9 +61,9 @@ namespace GoogleDriveJob
             update.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW;
             update.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
             var response = await update.ExecuteAsync();
-            if(response?.Updates?.UpdatedRows != null)
+            if (response?.Updates?.UpdatedRows != null)
             {
-                Console.WriteLine($"Updated rows: {response.Updates.UpdatedRows}");
+                Console.WriteLine($"{response.Updates.UpdatedRows} Rows Updated for Sheet:{spreadSheetId}");
             }
             else
             {

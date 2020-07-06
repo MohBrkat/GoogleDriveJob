@@ -194,5 +194,37 @@ namespace GoogleDriveJob.DAL
             return popularProductsModels;
         }
 
+        public void CreateEmailLog(string email, string content, string subject)
+        {
+            Logger.Info($"Create Email Log, email: {email}, subject: {subject}");
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    String query = "INSERT INTO dbo.EmailLog (ClientId,Email,EmailContent,IsHTML,Subject,SenderName) VALUES (@clientId,@email,@emailContent,@isHtml, @subject,@senderName)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@clientId", 172);
+                        command.Parameters.AddWithValue("@email", email);
+                        command.Parameters.AddWithValue("@emailContent", content);
+                        command.Parameters.AddWithValue("@isHtml", true);
+                        command.Parameters.AddWithValue("@subject", subject);
+                        command.Parameters.AddWithValue("@senderName", "GDS APP");
+
+                        connection.Open();
+                        int result = command.ExecuteNonQuery();
+
+                        // Check Error
+                        if (result < 0)
+                            Logger.Error("Error inserting data into Database table EmailLog!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.Message);
+            }
+        }
     }
 }
