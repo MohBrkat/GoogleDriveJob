@@ -35,7 +35,7 @@ namespace GoogleDriveJob
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
-                    $"{Environment.UserName}.sheet",
+                    $"{Environment.UserName}",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
                 //Console.WriteLine("Credential file saved to: " + credPath);
@@ -51,23 +51,34 @@ namespace GoogleDriveJob
             return service;
         }
 
-        public static async Task WriteAsync(List<IList<Object>> values, string spreadSheetId)
+        public static async Task WriteAsync(List<IList<Object>> values, string spreadSheetId, string fileName)
         {
             var sheetService = GetSheetsService();
-            var serviceValues = sheetService.Spreadsheets.Values;
-            var spreadRange = GetRange(sheetService, spreadSheetId);
-            var valueRange = new ValueRange { Values = values };
-            var update = serviceValues.Append(valueRange, spreadSheetId, spreadRange);
-            update.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW;
-            update.InsertDataOption = SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS;
-            var response = await update.ExecuteAsync();
+            var valueRange = new ValueRange()
+            {
+                MajorDimension = "ROWS",
+                Values = values
+            };
+
+            // How the input data should be interpreted.
+            SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum valueInputOption = (SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.RAW);  // TODO: Update placeholder value.
+
+            // How the input data should be inserted.
+            SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum insertDataOption = (SpreadsheetsResource.ValuesResource.AppendRequest.InsertDataOptionEnum.INSERTROWS);  // TODO: Update placeholder value.
+
+            SpreadsheetsResource.ValuesResource.AppendRequest request = sheetService.Spreadsheets.Values.Append(valueRange, spreadSheetId, "A:A");
+            request.ValueInputOption = valueInputOption;
+            request.InsertDataOption = insertDataOption;
+
+            AppendValuesResponse response = await request.ExecuteAsync();
+
             if (response?.Updates?.UpdatedRows != null)
             {
-                Console.WriteLine($"{response.Updates.UpdatedRows} Rows Updated for Sheet:{spreadSheetId}");
+                Console.WriteLine($"{response.Updates.UpdatedRows} Rows Updated for Sheet: {fileName}");
             }
             else
             {
-                Console.WriteLine($"Sheet : {spreadSheetId} is up to date");
+                Console.WriteLine($"Sheet : {fileName} is up to date");
             }
         }
 

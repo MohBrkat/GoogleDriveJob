@@ -7,8 +7,10 @@ namespace GoogleDriveJob.Models
 {
     public class ListsCreatedModel
     {
-        [Display(Order = -5)]
+        [Display(Order = -6)]
         public string CreatedDate { get; set; }
+        [Display(Order = -5)]
+        public string ListType { get; set; }
         [Display(Order = -4)]
         public string EventDate { get; set; }
         [Display(Order = -3)]

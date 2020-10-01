@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using Google.Apis.Services;
+using Google.Apis.Sheets.v4;
 using Google.Apis.Util.Store;
 using GoogleDriveJob.DAL;
 using GoogleDriveJob.Helpers;
@@ -23,7 +24,9 @@ namespace GoogleDriveJob
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/drive-dotnet-quickstart.json
         static string[] Scopes = { DriveService.Scope.Drive,
-                               DriveService.Scope.DriveFile };
+                               DriveService.Scope.DriveFile,
+                               SheetsService.Scope.Spreadsheets};
+
         static string ApplicationName = "Jifiti Google Cloud Reporting";
         static DriveService service;
         private static IConfiguration _iconfiguration;
@@ -41,10 +44,15 @@ namespace GoogleDriveJob
                 foreach (var clientId in clientIdList)
                 {
                     await GenerateTotalRevenueReportAsync(clientId);
+                    await Task.Delay(1000 * 15);
                     await GenerateNewUsersReportAsync(clientId);
+                    await Task.Delay(1000 * 15);
                     await GenerateListsCreatedReportAsync(clientId);
+                    await Task.Delay(1000 * 15);
                     await GenerateListsProductsReportAsync(clientId);
+                    await Task.Delay(1000 * 15);
                     await GeneratePopularProductsReportAsync(clientId);
+                    await Task.Delay(1000 * 100);
                 }
 
                 SaveCurrentDateToFile();
@@ -345,6 +353,7 @@ namespace GoogleDriveJob
                     IList<Object> obj = new List<Object>
                     {
                         list.CreatedDate,
+                        list.ListType,
                         list.EventDate,
                         list.LastPurchasedDate,
                         list.ListId,
@@ -386,7 +395,7 @@ namespace GoogleDriveJob
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     Scopes,
-                    $"{Environment.UserName}.drive",
+                    $"{Environment.UserName}",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
                 Console.WriteLine("Credential file saved to: " + credPath);
@@ -441,7 +450,7 @@ namespace GoogleDriveJob
                 {
 
                     //UpdateFile(filePath, folder, fs.FirstOrDefault(), contentType);
-                    await UpdateFileUsingGoogleSheetAsync<T>(fs.FirstOrDefault(), writeValues);
+                    await UpdateFileUsingGoogleSheetAsync<T>(fs.FirstOrDefault(), writeValues, Path.GetFileNameWithoutExtension(fileName));
                 }
                 else
                 {
@@ -450,10 +459,10 @@ namespace GoogleDriveJob
             }
         }
 
-        private static async System.Threading.Tasks.Task UpdateFileUsingGoogleSheetAsync<T>(File file, List<IList<Object>> dataList)
+        private static async System.Threading.Tasks.Task UpdateFileUsingGoogleSheetAsync<T>(File file, List<IList<Object>> dataList, string fileName)
         {
             var sheetId = file.Id;
-            await GoogleSheet.WriteAsync(dataList, sheetId);
+            await GoogleSheet.WriteAsync(dataList, sheetId,fileName);
         }
 
         private static void CreateFile(string filePath, File folder, string contentType)
@@ -623,7 +632,7 @@ namespace GoogleDriveJob
             if (System.IO.File.Exists(filePath))
             {
                 string[] lines = System.IO.File.ReadAllLines(filePath);
-                foreach(var line in lines)
+                foreach (var line in lines)
                 {
                     if (!string.IsNullOrWhiteSpace(line) && DateTime.TryParse(line, out DateTime value))
                         from = value;

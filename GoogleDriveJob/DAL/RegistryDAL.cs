@@ -39,7 +39,7 @@ namespace GoogleDriveJob.DAL
                             OrderId = Convert.ToInt32(rdr[0]),
                             BuyerID = Convert.IsDBNull(rdr[1]) ? (int?)null : Convert.ToInt32(rdr[1]),
                             OrderTransaction = rdr[2].ToString(),
-                            InsertDate = Convert.ToDateTime(rdr[3]).ToString("yyyy-MM-dd"),
+                            InsertDate = Convert.ToDateTime(rdr[3]).ToString("yyyyMMdd"),
                             SourceType = rdr[4].ToString(),
                             DeliveryOption = rdr[5].ToString(),
                             SKU = rdr[6].ToString(),
@@ -75,7 +75,7 @@ namespace GoogleDriveJob.DAL
                         newUsersModels.Add(new NewUsersModel
                         {
                             UserId = Convert.ToInt32(rdr[0]),
-                            InsertDate = Convert.ToDateTime(rdr[1]).ToString("yyyy-MM-dd"),
+                            InsertDate = Convert.ToDateTime(rdr[1]).ToString("yyyyMMdd"),
                             SourceType = rdr[2].ToString()
                         });
                     }
@@ -107,11 +107,12 @@ namespace GoogleDriveJob.DAL
                         listsCreatedModels.Add(new ListsCreatedModel
                         {
                             ListId = Convert.ToInt32(rdr[0]),
-                            EventDate = Convert.ToDateTime(rdr[1]).ToString("yyyy-MM-dd"),
+                            EventDate = Convert.ToDateTime(rdr[1]).ToString("yyyyMMdd"),
                             UniqueURL = rdr[2].ToString(),
                             Products = Convert.ToInt32(rdr[3]),
-                            LastPurchasedDate = Convert.IsDBNull(rdr[4]) ? rdr[4].ToString() : Convert.ToDateTime(rdr[4]).ToString("yyyy-MM-dd"),
-                            CreatedDate = Convert.ToDateTime(rdr[5]).ToString("yyyy-MM-dd")
+                            LastPurchasedDate = Convert.IsDBNull(rdr[4]) ? rdr[4].ToString() : Convert.ToDateTime(rdr[4]).ToString("yyyyMMdd"),
+                            CreatedDate = Convert.ToDateTime(rdr[5]).ToString("yyyyMMdd"),
+                            ListType = rdr[6].ToString()
                         });
                     }
                 }
@@ -141,7 +142,7 @@ namespace GoogleDriveJob.DAL
                     {
                         listProductsModels.Add(new ListProductsModel
                         {
-                            InsertDate = Convert.ToDateTime(rdr[0]).ToString("yyyy-MM-dd"),
+                            InsertDate = Convert.ToDateTime(rdr[0]).ToString("yyyyMMdd"),
                             ListProductID = Convert.ToInt32(rdr[1]),
                             ListID = Convert.ToInt32(rdr[2]),
                             ProductID = Convert.ToInt32(rdr[3]),
